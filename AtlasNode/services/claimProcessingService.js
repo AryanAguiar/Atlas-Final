@@ -1,5 +1,6 @@
 import { callPythonVerifyAll } from "./callPythonLLM.js";
-
+import VerifiedClaim from "../models/verifiedClaimModel.js";
+import Claim from "../models/claimsModel.js";
 export async function processUnverifiedClaims() {
     try {
         console.log("Processing unverified claims using Python...");

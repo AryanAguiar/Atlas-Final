@@ -2,7 +2,7 @@ import aiohttp
 import asyncio
 
 async def llama(prompt):
-    url = "http://127.0.0.1:1234/v1/chat/completions"
+    url = "http://192.168.56.1:1234/v1/chat/completions"
     headers = {"Content-Type": "application/json"}
     
     data = {
@@ -25,7 +25,7 @@ async def llama(prompt):
                     return ""
     
     except aiohttp.ClientConnectorError:
-        print("❌ Error: Cannot connect to Llama server at http://127.0.0.1:1234")
+        print("❌ Error: Cannot connect to Llama server at http://192.168.56.1:1234")
         print("   Make sure your local LLM server is running")
         return ""
     except asyncio.TimeoutError:

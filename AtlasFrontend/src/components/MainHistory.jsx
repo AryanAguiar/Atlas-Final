@@ -5,17 +5,20 @@ import PixelFace from './PixelFace';
 
 const MainHistory = () => {
     const navigate = useNavigate();
-    const [claims, setClaims] = useState([]);
+    const [targetClaims, setTargetClaims] = useState([]); // All claims fetched from backend
+    const [displayedClaims, setDisplayedClaims] = useState([]); // Claims currently shown to user
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Polling Effect
     useEffect(() => {
         const fetchClaims = async () => {
             try {
                 const res = await fetch('http://localhost:5000/api/claims/claimsWithVerification');
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const json = await res.json();
-                setClaims(Array.isArray(json.claims) ? json.claims : []);
+                const newClaims = Array.isArray(json.claims) ? json.claims : [];
+                setTargetClaims(newClaims);
             } catch (err) {
                 console.error("Error fetching claims:", err);
                 setError(err.message);
@@ -24,8 +27,32 @@ const MainHistory = () => {
             }
         };
 
+        // Initial fetch
         fetchClaims();
+
+        // Poll every 2 seconds
+        const interval = setInterval(fetchClaims, 2000);
+        return () => clearInterval(interval);
     }, []);
+
+    // Progressive Loading Effect (The "One by One" visual)
+    useEffect(() => {
+        if (displayedClaims.length < targetClaims.length) {
+            const timeout = setTimeout(() => {
+                setDisplayedClaims(prev => {
+                    const nextIndex = prev.length;
+                    if (nextIndex < targetClaims.length) {
+                        return [...prev, targetClaims[nextIndex]];
+                    }
+                    return prev;
+                });
+            }, 200); // 200ms delay between each claim appearing
+            return () => clearTimeout(timeout);
+        } else if (displayedClaims.length > targetClaims.length) {
+            // If claims were removed (rare), sync immediately
+            setDisplayedClaims(targetClaims);
+        }
+    }, [displayedClaims, targetClaims]);
 
     const handleClaimClick = (claim) => {
         sessionStorage.setItem('selectedClaim', JSON.stringify(claim));
@@ -45,7 +72,7 @@ const MainHistory = () => {
                         <h1 className='text-6xl md:text-8xl font-bold text-orange-500 leading-none mb-2 drop-shadow-[4px_4px_0_rgba(60,20,0,1)]'>
                             TRUTH_SEEKER
                         </h1>
-                        <div className="text-2xl text-orange-700 tracking-widest">
+                        <div className="text-2xl text-orange-700 tracking-widest" glitch="// Loading_Please_Wait...">
                             // DATABASE_ACCESS_TERMINAL
                         </div>
                     </div>
@@ -59,24 +86,25 @@ const MainHistory = () => {
 
                     <div className="mb-6 flex justify-between items-end border-b-2 border-orange-900/50 pb-2">
                         <h2 className="text-3xl text-orange-600 font-bold">DETECTED_CLAIMS</h2>
-                        <div className="text-orange-800 text-xl">COUNT: {claims.length}</div>
+                        <div className="text-orange-800 text-xl">COUNT: {displayedClaims.length} <span className="text-sm">/ {targetClaims.length}</span></div>
                     </div>
 
-                    {loading ? (
+                    {loading && displayedClaims.length === 0 ? (
                         <div className="text-4xl text-orange-500 animate-pulse text-center mt-20">LOADING_DATA...</div>
                     ) : error ? (
                         <div className="text-2xl text-red-500 text-center mt-20 border-2 border-red-900 p-4 bg-red-900/10">
                             ERROR: {error}
                         </div>
-                    ) : claims.length === 0 ? (
+                    ) : displayedClaims.length === 0 ? (
                         <div className="text-2xl text-orange-700 text-center mt-20">NO CLAIMS FOUND IN ARCHIVE</div>
                     ) : (
                         <div className="space-y-8">
-                            {claims.map((claim) => (
+                            {displayedClaims.map((claim, index) => (
                                 <div
-                                    key={claim._id}
+                                    key={claim._id || index}
                                     onClick={() => handleClaimClick(claim)}
-                                    className="group relative border-4 border-orange-900/50 hover:border-orange-500 bg-black p-6 cursor-pointer transition-all duration-200 hover:bg-orange-900/10 hover:translate-x-2"
+                                    className="group relative border-4 border-orange-900/50 hover:border-orange-500 bg-black p-6 cursor-pointer transition-all duration-200 hover:bg-orange-900/10 hover:translate-x-2 animate-in fade-in slide-in-from-bottom-4"
+                                    style={{ animationDuration: '0.5s', animationFillMode: 'backwards' }}
                                 >
                                     {/* Corner Accents */}
                                     <div className="absolute top-0 left-0 w-2 h-2 bg-orange-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>

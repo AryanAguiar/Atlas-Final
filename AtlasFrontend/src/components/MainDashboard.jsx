@@ -160,7 +160,7 @@ const MainDashboard = (props) => {
             {/* Explanation */}
             <div className="bg-black border-4 border-orange-600 p-8 relative">
               <h2 className="text-3xl text-orange-500 mb-6 border-b-2 border-orange-800 pb-2 inline-block">EXPLANATION</h2>
-              <div className="text-xl text-orange-200 leading-loose whitespace-pre-wrap font-sans">
+              <div className="text-2xl text-orange-200 leading-loose whitespace-pre-wrap">
                 {claim.explanation ?? 'No detailed explanation available.'}
               </div>
             </div>
