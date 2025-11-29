@@ -11,29 +11,43 @@
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        backgroundColor: "#fff",
-        color: "#000",
-        padding: "15px",
-        borderRadius: "8px",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+
+        backgroundColor: "#000000",
+        color: "#ff8c00",
+        fontFamily: "'Courier New', monospace",
+
+        padding: "18px",
+        border: "4px solid #ff8c00",
+        borderRadius: "0px", // pixel look
+        boxShadow: "8px 8px 0px rgba(160, 82, 45, 0.8)",
+
         zIndex: "10000",
         display: "none",
+
         maxWidth: "400px",
-        fontSize: "14px",
+        fontSize: "12px",
         lineHeight: "1.4",
         cursor: "default"
     });
+
     document.body.appendChild(modal);
 
     const closeBtn = document.createElement("span");
     closeBtn.textContent = "✖";
     Object.assign(closeBtn.style, {
         position: "absolute",
-        top: "5px",
+        top: "6px",
         right: "8px",
         cursor: "pointer",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        fontSize: "12px",
+        color: "#ff8c00",
+        background: "#000",
+        padding: "2px 4px",
+        border: "2px solid #ff8c00",
+        boxShadow: "2px 2px 0px #ff8c00"
     });
+
     modal.appendChild(closeBtn);
     closeBtn.addEventListener("click", () => modal.style.display = "none");
 
@@ -56,21 +70,24 @@
 
             let content = "Claim not found";
             if (match) {
-                content = '<div style="text-align: left; max-height: 300px; overflow-y: auto;">';
-                for (const [key, value] of Object.entries(match)) {
-                    if (key === '__v') continue; // skip internal version key
+                const original = match.originalClaim || "N/A";
+                const explanation = match.explanation_snipper || "No explanation available";
 
-                    let displayValue = value;
-                    if (Array.isArray(value)) {
-                        displayValue = value.length ? JSON.stringify(value) : "[]";
-                    } else if (typeof value === 'object' && value !== null) {
-                        displayValue = JSON.stringify(value);
-                    }
+                content = `
+                    <div style="text-align: left; max-height: 300px; overflow-y: auto;">
+                        <div style="margin-bottom: 8px;">
+                            <strong>Claim:</strong>
+                            <div style="word-break: break-word;">${original}</div>
+                        </div>
 
-                    content += `<div style="margin-bottom: 4px;"><strong>${key}:</strong> <span style="word-break: break-word;">${displayValue}</span></div>`;
-                }
-                content += '</div>';
+                        <div style="margin-bottom: 8px;">
+                            <strong>Explanation:</strong>
+                            <div style="word-break: break-word;">${explanation}</div>
+                        </div>
+                    </div>
+                `;
             }
+
 
             modal.innerHTML = content;
             modal.appendChild(closeBtn);
@@ -331,3 +348,4 @@
     });
 
 })();
+

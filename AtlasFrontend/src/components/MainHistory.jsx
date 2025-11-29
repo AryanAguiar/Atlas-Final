@@ -70,7 +70,7 @@ const MainHistory = () => {
                     </div>
                     <div className='ml-8'>
                         <h1 className='text-6xl md:text-8xl font-bold text-orange-500 leading-none mb-2 drop-shadow-[4px_4px_0_rgba(60,20,0,1)]'>
-                            TRUTH_SEEKER
+                            ATLAS
                         </h1>
                         <div className="text-2xl text-orange-700 tracking-widest" glitch="// Loading_Please_Wait...">
                             // DATABASE_ACCESS_TERMINAL
