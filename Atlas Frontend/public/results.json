@@ -1,0 +1,28 @@
+[
+  {
+    "verdict": "TRUE",
+    "confidence": 1,
+    "summary": "A Georgia judge has dismissed the 2020 election interference case against Donald Trump.",
+    "reasoning": "All sources point to a dismissal of the case, with no conflicting information provided. The BBC News article directly states that 'a Georgia judge has dismissed the sprawling 2020 election interference case against Donald Trump'.",
+    "key_quotes": "A Georgia judge has dismissed the sprawling 2020 election interference case against Donald Trump.",
+    "claim": "Skip to content British Broadcasting Corporation Home News Sport Business Innovation Culture Arts Travel Audio Video Live Weather Newsletters Georgia judge dismisses 2020 election interference case against Trump 55 minutes ago Share Save Kwasi Gyamfi Asiedu and Kayla Epstein EPA/Shutterstock A Georgia judge has dismissed the sprawling 2020 election interference case against Donald Trump, ending the final effort to prosecute the president for allegedly attempting to overturn his loss to Joe Biden.",
+    "sources_used": 3,
+    "sources": [
+      {
+        "title": "BBC Home - Breaking News, World News, US News, Sports ...",
+        "url": "https://www.bbc.com/",
+        "trust": "medium"
+      },
+      {
+        "title": "Breaking news, video and the latest top stories from the ... - BBC News",
+        "url": "https://www.bbc.com/news",
+        "trust": "medium"
+      },
+      {
+        "title": "BBC News Channel | Watch Live Breaking News",
+        "url": "https://www.bbc.com/watch-live-news",
+        "trust": "medium"
+      }
+    ]
+  }
+]
